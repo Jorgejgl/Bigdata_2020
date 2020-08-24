@@ -1,0 +1,163 @@
+---
+title: "Clase1_graficos"
+author: "Jorge González"
+date: "06-08-2020"
+output: html_document
+---
+```{r}
+summary(cars$dist)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+## Librerias a utilizar
+
+
+```{r}
+install.packages("ggplot")
+install.packages("ggplot2")
+library("ggplot2")
+```
+
+## Cargar datos
+
+```{r}
+
+dataf <- read.csv("C:/Users/Jorge/Documents/CLASES 2020/BIG DATA/Base de datos/presupuesto_familiar.csv",sep=";",encoding="UTF8" )
+
+dataf
+
+```
+
+## Estadistica de una columna
+
+```{r}
+
+summary(dataf$GAS)
+
+```
+
+
+## Histograma
+
+```{r}
+ggplot(dataf,aes(x=N_INDIVIDUOS))+
+  geom_histogram()+
+  scale_x_continuous(name = "Numero de personas")+ # agrega nombre al eje x
+  scale_y_continuous(name = "Frecuencia")+ # agrega nombre al eje y
+  ggtitle(label = "Grafico de distribución")
+```
+
+## Probando grafico box-plot
+
+```{r}
+
+boxplot(dataf$N_INDIVIDUOS)
+
+```
+
+
+
+## Clase 2 GRAFICOS: miercoles 5 agosto
+
+```{r}
+
+ggplot(dataf,aes(x=N_INDIVIDUOS))+
+  geom_histogram()+
+  scale_x_continuous(name = "numero de individuos", breaks = seq(0,15,2), limits = c(0,15))+
+  scale_y_continuous(name = "numero de individuos", breaks = seq(0,200,40), limits = c(0,100))
+
+```
+
+
+## Progreso del codigo
+
+```{r}
+
+ggplot(dataf,aes(x=N_INDIVIDUOS, fill = GSE1))+
+  geom_histogram(position = "dodge")+
+  scale_x_continuous(name = "numero de individuos", breaks = seq(0,15,2), limits = c(0,15))+
+  scale_y_continuous(name = "cantidad de hogares")+
+  ggtitle(label = "Cantidad de individuos por hogar agrupados por GSE1")
+
+```
+
+
+```{r}
+
+ggplot(dataf,aes(x=N_INDIVIDUOS, fill = GSE1))+
+  geom_histogram(position = "dodge")+
+  scale_x_continuous(name = "numero de individuos", breaks = seq(0,15,2), limits = c(0,15))+
+  scale_y_continuous(name = "cantidad de hogares")+
+  ggtitle(label = "Cantidad de individuos por hogar agrupados por GSE1")+
+  facet_wrap(~GSE1, scales = 'fixed') # separa el grafico
+
+```
+
+
+## Graficos de barra
+
+```{r}
+
+ggplot(dataf,aes(x=GSE))+
+  geom_bar()+
+  scale_x_discrete(name = "GSE")+
+  scale_y_continuous(name = "Cantidad de hogares")
+
+```
+
+
+```{r}
+
+ggplot(dataf,aes(x=GSE))+
+  geom_bar()+
+  scale_x_discrete(name = "GSE")+
+  scale_y_continuous(name = "Cantidad de hogares")+
+  geom_text(stat = 'count', hjust = 0, vjust = 0, position = position_dodge(0.9), aes(x = GSE, label=stat(count)))
+
+```
+
+
+```{r}
+
+ggplot(dataf,aes(x=NIVEL.EDUCJEFE.DE.HOGAR))+
+  geom_bar()+
+  scale_x_discrete(name = "Nivel educacional: jefa del hogar")+
+  scale_y_continuous(name = "Numero de hogares", limits = c(0,120))+
+  geom_text(stat = 'count', hjust = 0, vjust = 0, position = position_dodge(0.9), aes(x = NIVEL.EDUCJEFE.DE.HOGAR, label=stat(count)))+
+  coord_flip()
+
+```
+
+## Scaterplot
+
+```{r}
+ggplot(dataf,aes(x=ELECTRICIDAD, y=AGUA, color = GSE1, shape = GSE1 ))+
+  geom_point()+
+  scale_x_continuous(name = "Electricidad")+
+  scale_y_continuous(name = "Agua")+
+  facet_wrap(~GSE1, scales = 'fixed')
+
+
+```
+
+
+## Grafico de lineas
+
+```{r}
+
+ggplot(dataf,aes(x=ELECTRICIDAD, y=AGUA))+
+  geom_point()+
+  geom_line()
+
+```
+
